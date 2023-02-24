@@ -1,5 +1,8 @@
 #include <iostream>  
-#include <boost/asio.hpp>  
+#include <boost/asio.hpp>
+#include <string>
+
+#include "include/parser.h" 
   
 using namespace boost::asio;
 using ip::tcp;
@@ -8,6 +11,12 @@ using std::cout;
 using std::endl;
 
 int main() {
+
+    pars::Parser parser;
+    std::string inText;
+
+    std::cin >> inText;
+
     boost::asio::io_service io_service;
   
     // Создание сокета 
@@ -17,7 +26,8 @@ int main() {
     socket.connect( tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 1234 ));
   
     // Запрос/сообщение от клиента 
-     const string msg = "Привет от Клиента!\n";
+    const string msg = parser.TranslateTextJson(inText) + "\n"; 
+
     boost::system::error_code error;
     boost::asio::write( socket, boost::asio::buffer(msg), error );
      if( !error ) {
@@ -37,5 +47,6 @@ int main() {
         const char* data = boost::asio::buffer_cast<const char*>(receive_buffer.data());
         cout << data << endl;
      }  
+     
      return 0;
 } 
