@@ -9,10 +9,10 @@
 
 using namespace boost::json;
 
- namespace pars
+ namespace Serf
  {   
 
-    std::string Parser::TranslateTextJson(const std::string& text)
+    std::string parser::TranslateTextJson(const std::string& text)
     {
         object obj; 
         obj["formula"] = text; 

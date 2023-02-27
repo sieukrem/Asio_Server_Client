@@ -4,21 +4,21 @@
 #include <optional>
 #include <boost/asio.hpp>
 
-namespace prog
+namespace serf
 {
     class program
     {
 
     public:
-        program(boost::asio::io_context& io_context, std::uint16_t port);
+        program();
 
         void async_accept();
 
     private:
-        boost::asio::io_context& io_context;
+        boost::asio::io_context io_context;
         boost::asio::ip::tcp::acceptor acceptor;
         std::optional<boost::asio::ip::tcp::socket> socket;
 
     };    
 
-} // namespace prog
+} // namespace serf

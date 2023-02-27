@@ -4,7 +4,7 @@
 #include <optional>
 #include <boost/asio.hpp>
 
-namespace ses
+namespace serf
 {
     class session : public std::enable_shared_from_this<session>
     {
@@ -20,4 +20,4 @@ namespace ses
         boost::asio::streambuf streambuf;
     };
 
-} // namespace ses
+} // namespace serf

@@ -20,7 +20,7 @@ set(SOURCE
           include/sesion.h
    )
 
-find_package(Boost 1.81.0)
+find_package(Boost 1.75.0)
 if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
   add_executable(${PROJECT_NAME} ${SOURCE})

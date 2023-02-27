@@ -1,13 +1,15 @@
 #include "include/program.h"
 #include "include/sesion.h"
 
-namespace prog
+namespace serf
 {
 
-    program::program(boost::asio::io_context& io_context, std::uint16_t port)
-        : io_context(io_context)
-        , acceptor  (io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-        {}
+    program::program():
+         acceptor  (io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 1234))
+        {
+            async_accept();
+            io_context.run();
+        }
 
     void program::async_accept()
     {
@@ -15,8 +17,10 @@ namespace prog
 
         acceptor.async_accept(*socket, [&] (boost::system::error_code error)
         {
-            std::make_shared<ses::session>(std::move(*socket))->start();
+            std::make_shared<serf::session>(std::move(*socket))->start();
+            
             async_accept();
         });
+        
     }
-} // namespace prog
+} // namespace serf

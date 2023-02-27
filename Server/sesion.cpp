@@ -1,6 +1,6 @@
 #include "include/sesion.h"
 
-namespace ses
+namespace serf
 {
     session::session(boost::asio::ip::tcp::socket&& socket)
             : socket(std::move(socket))

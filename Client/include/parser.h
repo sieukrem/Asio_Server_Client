@@ -2,9 +2,9 @@
 
 #include <string>
 
-namespace pars
+namespace Serf
 {
-    class Parser
+    class parser
     {
     private:
 

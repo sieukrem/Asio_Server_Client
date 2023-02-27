@@ -5,10 +5,8 @@
 
 int main() {
     
-    boost::asio::io_context io_context;
-    prog::program srv(io_context, 1234);
-    srv.async_accept();
-    io_context.run();
+    
+    serf::program srv;
     return 0;
 } 
 

@@ -1,4 +1,4 @@
 project(ServerClient)
 
-add_subdirectory(client)
-add_subdirectory(server)
+add_subdirectory(Client)
+add_subdirectory(Server)
