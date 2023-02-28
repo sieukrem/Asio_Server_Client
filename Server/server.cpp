@@ -1,14 +1,28 @@
 #include <iostream> 
-#include "include/program.h" 
+#include "include/tcp_server.h" 
 
 
+int main(int argc, char* argv[]) {
 
-int main() {
-    
-    
-    serf::program srv;
+    Serf::tcpServer server {Serf::IPV::V4, 1234};
+
+    server.OnJoin = [](Serf::tcpConnection::pointer server) {
+        std::cout << "Пользователь присоединился к серверу: " << server->GetUsername() << std::endl;
+    };
+
+    server.OnLeave = [](Serf::tcpConnection::pointer server) {
+        std::cout << "Пользователь покинул сервер: " << server->GetUsername() << std::endl;
+    };
+
+    server.OnClientMessage = [&server](const std::string& message) {
+        // Обрабатываем сообщения 
+        server.Broadcast(message);
+    };
+
+    server.Run();
+
     return 0;
-} 
+}
 
 /*
 

@@ -14,10 +14,10 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
 
 set(SOURCE 
           server.cpp
-          program.cpp
-          sesion.cpp
-          include/program.h
-          include/sesion.h
+          tcp_connect.cpp
+          tcp_server.cpp
+          include/tcp_connect.h
+          include/tcp_server.h
    )
 
 find_package(Boost 1.75.0)
