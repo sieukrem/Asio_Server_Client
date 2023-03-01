@@ -2,8 +2,18 @@
 #include "include/tcp_server.h" 
 
 
-int main(int argc, char* argv[]) {
 
+int main(int argc, char* argv[]) {
+    /*
+    std::string token;
+    std::cout << "Ведите матиматическое выражение " << std::endl;
+    Serf::mathparse test;
+    getline(std::cin, token);
+
+    auto node = test.Parse(token.begin(), token.end());
+
+    std::cout << std::to_string(node->Evaluate()) << std::endl;
+    */
     Serf::tcpServer server {Serf::IPV::V4, 1234};
 
     server.OnJoin = [](Serf::tcpConnection::pointer server) {

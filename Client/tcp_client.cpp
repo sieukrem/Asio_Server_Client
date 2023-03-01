@@ -59,6 +59,8 @@ namespace Serf {
 
         std::stringstream message;
         message << std::istream{&_streamBuf}.rdbuf();
+       // std::string tes = "tetetet\n";
+       // OnMessage(tes);
         OnMessage(message.str());
         asyncRead();
     }

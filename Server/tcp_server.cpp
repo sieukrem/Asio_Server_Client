@@ -30,13 +30,19 @@ namespace Serf
     // Работаем стекстом 
     void tcpServer::Broadcast(const std::string &message)
     {
+        
+        std::string key = "formula";
         //std::cout << "Broadcast: " << std::endl;
-        std::string _username = GetNameStream(message);
+        pars.StringSorting(message);        
+        std::string stringformula = pars.TranslateJsonText(key, pars.GetJson());
+        auto sumformula = math.Parse(stringformula.begin(), stringformula.end());
+        std::string change = std::to_string(sumformula->Evaluate());
+        std::string finish = pars.GetId() + ": Сумма: " + change + "\n";
+        
         for (auto &connection : _connections)
         {
-            std::string name = connection->GetUsername();
-            if (_username == name)
-                connection->Post(message);
+            if (pars.GetId() == connection->GetUsername())
+                connection->Post(finish);
         }
     }
 
@@ -76,20 +82,5 @@ namespace Serf
         startAccept(); });
     }
 
-    std::string tcpServer::GetNameStream(const std::string &message)
-    {
-        std::string name;
-        int counter = 0;
-        for (auto const &item : message)
-        {
-            if (item == ':'){ 
-             if(counter > 0) break;
-                name += item;
-                counter++;
-            }else{
-            name += item;   
-            }        
-        }
-        return name;
-    }
+
 }

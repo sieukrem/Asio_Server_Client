@@ -14,9 +14,9 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
 
 set(SOURCE 
           client.cpp
-          parser.cpp
+          jsonparser.cpp
           tcp_client.cpp
-          include/parser.h
+          include/jsonparser.h
           include/tcp_client.h
    )
 

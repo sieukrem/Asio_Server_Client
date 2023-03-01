@@ -5,6 +5,8 @@
 #include <optional>
 #include <unordered_set>
 #include "tcp_connect.h"
+#include "jsonparser.h"
+#include "mathparser.h"
 
 namespace Serf {
     namespace io = boost::asio;
@@ -13,6 +15,8 @@ namespace Serf {
         V4,
         V6
     };
+
+
 
     class tcpServer {        
         using OnJoinHandler = std::function<void(tcpConnection::pointer)>;
@@ -24,7 +28,7 @@ namespace Serf {
 
         int Run();
         void Broadcast(const std::string& message);
-        std::string GetNameStream(const std::string& message);
+        //std::string GetNameStream(const std::string& message);
     private:
         void startAccept();
 
@@ -37,7 +41,8 @@ namespace Serf {
         IPV _ipVersion;
         int _port;
 
-
+        jsonparser pars;
+        mathparse math;
         io::io_context _ioContext;
         io::ip::tcp::acceptor  _acceptor;
         std::optional<io::ip::tcp::socket> _socket;

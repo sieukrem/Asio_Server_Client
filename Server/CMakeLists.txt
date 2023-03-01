@@ -16,8 +16,12 @@ set(SOURCE
           server.cpp
           tcp_connect.cpp
           tcp_server.cpp
+          mathparser.cpp
+          jsonparser.cpp
           include/tcp_connect.h
           include/tcp_server.h
+          include/mathparser.h
+          include/jsonparser.h
    )
 
 find_package(Boost 1.75.0)

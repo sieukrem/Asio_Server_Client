@@ -1,5 +1,5 @@
 #include "include/tcp_client.h"
-#include "include/parser.h"
+#include "include/jsonparser.h"
 #include <iostream>
 #include <thread>
 
@@ -7,9 +7,17 @@ using namespace Serf;
 
 int main(int argc, char* argv[]) {
     tcpClient client {"localhost", 1234};
-    parser parser;  
+
+    jsonparser pars; 
+    std::string key = "formula";
+    std::string result = "grdeherhe";
+    std::string jsontext = "";
+    //std::string id = "";
+
     client.OnMessage = [](const std::string& message) {
-        std::cout << message;
+         //std::string id = pars.GetParsText(jsontext, message);
+         //std::string result = pars.TranslateJsonText(key, jsontext);
+        std::cout  << message;
     };
 
     std::thread t{[&client] () { client.Run(); }};
@@ -20,7 +28,7 @@ int main(int argc, char* argv[]) {
 
         if (message == "\\q") break;
 
-        client.Post(parser.TranslateTextJson(message) + "\n");
+        client.Post(pars.TranslateTextJson(key, message) + "\n");
     }
 
     client.Stop();
