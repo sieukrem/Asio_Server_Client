@@ -1,5 +1,9 @@
 # Asio_Server_Client
-Писал код на ОС Linux Centos 9 stream
-Собираю проекты через Cmake 
-Server:
+
+* Писал код на ОС Linux Centos 9 stream
+* Собираю проекты через Cmake 
+
+## Server:
+* Сервер может принимать неограниченное колличиство клиентов 
+* Каждому клиенту 
   
