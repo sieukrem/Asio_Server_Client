@@ -1,5 +1,5 @@
-#pragma  once
 
+#pragma once
 #include <boost/asio.hpp>
 #include <functional>
 #include <optional>
@@ -7,6 +7,7 @@
 #include "tcp_connect.h"
 #include "jsonparser.h"
 #include "mathparser.h"
+
 
 namespace Serf {
     namespace io = boost::asio;
@@ -24,7 +25,7 @@ namespace Serf {
         using OnClientMessageHandler = std::function<void(std::string)>;
 
     public:
-        tcpServer(IPV ipv, int port);
+        tcpServer(IPV ipv, int port);        
 
         int Run();
         void Broadcast(const std::string& message);
@@ -40,7 +41,7 @@ namespace Serf {
     private:
         IPV _ipVersion;
         int _port;
-
+        
         jsonparser pars;
         mathparse math;
         io::io_context _ioContext;

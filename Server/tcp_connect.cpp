@@ -1,22 +1,23 @@
+#include "include/logging.h"
 #include "include/tcp_connect.h"
+
 
 #include <iostream>
 
 namespace Serf {
     tcpConnection::tcpConnection(io::ip::tcp::socket&& socket) : _socket(std::move(socket)) {
         boost::system::error_code ec;
-        //std::cout << "Constructor TCPConnection: " << std::endl;
+        LOGGING_SOURCES(normal, "Конструктор класса tcpConnection");
         std::stringstream name;
         name << _socket.remote_endpoint();
         _username = name.str();
-        //std::cout << "_username: " << _username << std::endl;
+        LOGGING_SOURCES(normal, "Сохраняем имя пользователя " + _username);
         
     }
 
-    void tcpConnection::Start(MessageHandler&& messageHandler, ErrorHandler&& errorHandler) {
-        //std::cout << "Start: " << std::endl;
+    void tcpConnection::Start(MessageHandler&& messageHandler, ErrorHandler&& errorHandler) {        
         _messageHandler = std::move(messageHandler);      
-        _errorHandler = std::move(errorHandler);        
+        _errorHandler = std::move(errorHandler);               
         asyncRead();
     }
 
@@ -24,35 +25,36 @@ namespace Serf {
         bool queueIdle = _outgoingMessages.empty();
         // добавляем наше сообщение 
         _outgoingMessages.push(message);
-        //std::cout << "Post: " << std::endl;
+        LOGGING_SOURCES(normal, "Добавили наше сообшение в очередь.");
         if (queueIdle) {
             asyncWrite();
         }
     }
 
     void tcpConnection::asyncRead() {
-        //std::cout << "asyncRead: " << std::endl;
+        LOGGING_SOURCES(normal, "Рекурсия asyncRead");
         // читаем из сокета поток _streamBuf до "\n" 
         io::async_read_until(_socket, _streamBuf, "\n", 
                             // через лямду передаем колличество байт в метод onRead для получения текста из потока 
                             [self = shared_from_this()](boost::system::error_code ec, size_t bytesTransferred) {
-                                //std::cout << "Lamda async_read_until: " << std::endl;
+                                LOGGING_SOURCES(normal, "Забираем наше сообщение пока не встретим \\n");
                                 self->onRead(ec, bytesTransferred);
         });
     }
 
     void tcpConnection::onRead(boost::system::error_code ec, size_t bytesTranferred) {
-        //std::cout << "onRead: " << std::endl;
+        
         if (ec) {
             _socket.close(ec);
             _errorHandler();
+            LOGGING_SOURCES(error, "Ошибка.");
             return;
         }
         // забираем из потока наше сообщение        
         std::stringstream message;
         message << _username << ": " << std::istream(&_streamBuf).rdbuf();
         _streamBuf.consume(bytesTranferred);
-        
+        LOGGING_SOURCES(normal, "Забираем наше сообщение.");
 
         // Сохраняем наш хендл и текст 
         _messageHandler(message.str());
@@ -60,26 +62,27 @@ namespace Serf {
     }
 
     void tcpConnection::asyncWrite() {
-        //std::cout << "asyncWrite: " << std::endl;
+        LOGGING_SOURCES(normal, "Записываем сообщение.");
         // Записываем наше сообщение в буфер для отправки клиенту front() сколько байт
         io::async_write(_socket, io::buffer(_outgoingMessages.front()), 
-                        // через лямду записываем наше сщщбщение 
+                        // через лямду записываем наше сообщение 
                         [self = shared_from_this()](boost::system::error_code ec, size_t bytesTransferred) {
-                            //std::cout << "Lamda async_write: " << std::endl;
+                            LOGGING_SOURCES(normal, "Записываем в _socket.");
                             self->onWrite(ec, bytesTransferred);
         });
     }
 
     void tcpConnection::onWrite(boost::system::error_code ec, size_t bytesTransferred) {
-        //std::cout << "onWrite: " << std::endl;
+        LOGGING_SOURCES(normal, "Записываем в _socket.");
         if (ec) {
             _socket.close(ec);
             _errorHandler();
+            LOGGING_SOURCES(error, "Ошибка.");
             return;
         }
 
         _outgoingMessages.pop();
-
+        LOGGING_SOURCES(normal, "Удаление из стека.");    
         if (!_outgoingMessages.empty()) {
             asyncWrite();
         }
