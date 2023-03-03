@@ -29,7 +29,7 @@ namespace Serf {
 
         int Run();
         void Broadcast(const std::string& message);
-        //std::string GetNameStream(const std::string& message);
+        
     private:
         void startAccept();
 

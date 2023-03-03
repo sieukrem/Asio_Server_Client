@@ -1,25 +1,26 @@
+
+#include "include/logging.h"
 #include "include/tcp_client.h"
-#include "include/jsonparser.h"
 #include <iostream>
 #include <thread>
 
 using namespace Serf;
 
 int main(int argc, char* argv[]) {
+
+   LOGGING_INIT();
+   LOGGING_SOURCES(normal, "Старт клиент!." );
+
     tcpClient client {"localhost", 1234};
 
     jsonparser pars; 
-    std::string key = "formula";
-    std::string result = "grdeherhe";
-    std::string jsontext = "";
-    //std::string id = "";
+    std::string key = "formula";    
 
-    client.OnMessage = [](const std::string& message) {
-         //std::string id = pars.GetParsText(jsontext, message);
-         //std::string result = pars.TranslateJsonText(key, jsontext);
+    client.OnMessage = [&](const std::string& message) { 
+        LOGGING_SOURCES(normal, "Получаем наше сообщение с результатом: " + message);
         std::cout  << message;
     };
-
+    LOGGING_SOURCES(normal, "Создаем поток для входящих сообщений." );  
     std::thread t{[&client] () { client.Run(); }};
 
     while(true) {
@@ -27,24 +28,15 @@ int main(int argc, char* argv[]) {
         getline(std::cin, message);
 
         if (message == "\\q") break;
-
+         LOGGING_SOURCES(normal, "Подготавливаем наше сообщение переводим в json." + message);
         client.Post(pars.TranslateTextJson(key, message) + "\n");
     }
 
     client.Stop();
     t.join();
+    LOGGING_SOURCES(normal, "Финиш клиент!." );
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /*

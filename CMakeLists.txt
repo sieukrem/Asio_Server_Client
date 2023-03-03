@@ -2,6 +2,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
 project(ServerClient)
 
+set(CMAKE_CXX_STANDARD 20)
+
 SET(GCC_COVERAGE_COMPILE_FLAGS "-DBOOST_LOG_DYN_LINK -lboost_log_setup -lboost_log -lboost_thread -lpthread -lboost_system -lboost_filesystem")
 SET(GCC_COVERAGE_LINK_FLAGS    "-lgcov")
 

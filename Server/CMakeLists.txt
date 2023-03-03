@@ -1,8 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.8)
 project(server)
-#FIND_PACKAGE(Boost 1.75 COMPONENTS log REQUIRED)
-#FIND_PACKAGE(Threads)
-#INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 ADD_EXECUTABLE(${PROJECT_NAME} server.cpp 
                       include/jsonparser.h 

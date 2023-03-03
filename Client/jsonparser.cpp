@@ -1,3 +1,5 @@
+#include "include/logging.h"
+
 #define BOOST_BIND_GLOBAL_PLACEHOLDERS
 #include <iostream>
 #include <string>
@@ -14,6 +16,7 @@ using namespace boost::json;
 
     std::string jsonparser::TranslateTextJson(const std::string& key, const std::string& text)
     {
+        LOGGING_SOURCES(normal, "Создаем json текст.");
         object obj;        
         obj[key] = text;
         // Преобразуем в string
@@ -22,41 +25,43 @@ using namespace boost::json;
 
     std::string jsonparser::TranslateJsonText(const std::string& key,const std::string& jsontext)
     {
+        
         std::stringstream jsomEncoder(jsontext);
         boost::property_tree::ptree root;
         boost::property_tree::read_json(jsomEncoder, root);
 
         if(root.empty()) return "";
-
+        LOGGING_SOURCES(normal, "Распарсили json в текст " + root.get<std::string>(key));
         return root.get<std::string>(key);
     }
 
-    std::string jsonparser::GetParsText(std::string& jsontext, const std::string &message)
-    {
-        std::string name;
+    void jsonparser::StringSorting(const std::string &message)
+    {     
+        id = ""; 
+        json = "";        
         int counter = 0;
         bool flag = true;
         for (auto const &item : message)
         {
-            if(flag){
+            if(flag){    
                 if (item == ':'){ 
-                if(counter > 0) 
-                    {
-                        flag =false;
+                    if(counter > 0){
+                        flag = false;
                     }else{
-                    name += item;
+                    id += item;
                     counter++;
                     }
                 }else{
-                name += item;   
+                id += item;   
                 } 
-            }else{
-                if(item != ' ' && item != '\'' && item != 'n' )
-                    jsontext += item;
-            }       
+            } else{
+                if(item !=' ') json += item;
+            }      
         }
-        return name;
+        LOGGING_SOURCES(normal, "Распарсил текст на IDname: " + id + " и json: " + json);  
     }
+
+    
 
  }// namespace pars
 

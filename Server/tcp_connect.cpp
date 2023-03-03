@@ -80,9 +80,9 @@ namespace Serf {
             LOGGING_SOURCES(error, "Ошибка.");
             return;
         }
-
+        LOGGING_SOURCES(normal, "Удаление из стека.");  
         _outgoingMessages.pop();
-        LOGGING_SOURCES(normal, "Удаление из стека.");    
+          
         if (!_outgoingMessages.empty()) {
             asyncWrite();
         }

@@ -1,6 +1,7 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <queue>
+#include "jsonparser.h"
 
 namespace Serf {
     namespace io = boost::asio;
@@ -24,6 +25,9 @@ namespace Serf {
         MessageHandler OnMessage;
 
     private:
+
+        jsonparser pars;
+
         io::io_context _ioContext {};
         io::ip::tcp::socket _socket;
 
