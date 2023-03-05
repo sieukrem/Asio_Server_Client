@@ -44,7 +44,7 @@ namespace Serf
         std::shared_ptr<const Node> _left, _right;
     };
 
-    class mathparse {
+    class mathparser {
     public:
     template <class Iterator>
     std::shared_ptr<Node> Parse(Iterator token, Iterator end);        
@@ -52,7 +52,7 @@ namespace Serf
     };
 
     template <class Iterator>
-    std::shared_ptr<Node> mathparse::Parse(Iterator token, Iterator end){
+    std::shared_ptr<Node> mathparser::Parse(Iterator token, Iterator end){
         if (token == end){
             return std::make_shared<Value>('0');
         }

@@ -43,7 +43,7 @@ namespace Serf {
         int _port;
         
         jsonparser pars;
-        mathparse math;
+        mathparser math;
         io::io_context _ioContext;
         io::ip::tcp::acceptor  _acceptor;
         std::optional<io::ip::tcp::socket> _socket;

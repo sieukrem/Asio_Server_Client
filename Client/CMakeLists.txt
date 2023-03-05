@@ -8,7 +8,13 @@ ADD_EXECUTABLE(${PROJECT_NAME}
                               include/jsonparser.h
                               include/tcp_client.h)
                               
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${Boost_LOG_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+  ${Boost_LOG_LIBRARY}
+  ${CMAKE_THREAD_LIBS_INIT}
+  -lpthread
+  -DBOOST_LOG_DYN_LINK -lboost_log_setup -lboost_log -lboost_thread -lpthread -lboost_system -lboost_filesystem
+
+)
 
 
 

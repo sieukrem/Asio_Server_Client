@@ -3,24 +3,25 @@
 #define BOOST_BIND_GLOBAL_PLACEHOLDERS
 #include <iostream>
 #include <string>
-#include <boost/json.hpp>
-#include <boost/json/src.hpp>
+// #include <boost/json.hpp>
+// #include <boost/json/src.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include "include/jsonparser.h"
 
-using namespace boost::json;
+// using namespace boost::json;
  namespace Serf
  {   
 
     std::string jsonparser::TranslateTextJson(const std::string& key, const std::string& text)
     {
         LOGGING_SOURCES(normal, "Создаем json текст.");
-        object obj;        
-        obj[key] = text;
-        // Преобразуем в string
-        return  boost::lexical_cast<std::string>(obj);
+        // object obj;        
+        // obj[key] = text;
+        // // Преобразуем в string
+        // return  boost::lexical_cast<std::string>(obj);
+        return key+text  ;
     }
 
     std::string jsonparser::TranslateJsonText(const std::string& key,const std::string& jsontext)
